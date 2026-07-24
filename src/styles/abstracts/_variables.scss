@@ -1,0 +1,34 @@
+// =========================================
+// ЦВЕТА
+// =========================================
+$c-dark-blue: #233849;
+$c-main-blue: #4D799D;
+$c-gray-dark: #727272;
+$c-gray-medium: #B9B9B9;
+$c-gray-light: #D9D9D9;
+$c-yellow-accent: #F2B124;
+$c-white: #ffffff;
+$c-danger: #d9534f;
+$c-bg-light: #f8f9fa;
+
+// Брендовые цвета мессенджеров (иконки в дропдауне "Контакты")
+$c-whatsapp: #25D366;
+$c-telegram: #229ED9;
+$c-viber: #7360F2;
+
+// =========================================
+// BREAKPOINTS
+// mobile  — от 360px (базовые стили, mobile-first)
+// tablet  — от 768px
+// desktop — от 1024px
+// =========================================
+$bp-mobile: 360px;
+$bp-tablet: 768px;
+$bp-desktop: 1024px;
+
+// =========================================
+// ПРОЧЕЕ
+// =========================================
+$container-width: 1200px;
+$header-height: 64px;
+$transition-base: 0.3s ease;

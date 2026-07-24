@@ -1,0 +1,113 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as m;
+
+.schedule {
+  padding: 60px 0;
+
+  &__title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 40px;
+    color: v.$c-dark-blue;
+
+    @include m.desktop {
+      font-size: 32px;
+    }
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+
+    @include m.desktop {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
+.schedule-form {
+  display: flex;
+  flex-direction: column; // mobile: в столбец
+  gap: 20px;
+  padding: 24px;
+  border-radius: 8px;
+  margin-bottom: 40px;
+  background-color: v.$c-white;
+
+  @include m.desktop {
+    flex-direction: row; // desktop: в одну строку
+    align-items: flex-end;
+  }
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  &__label {
+    font-size: 14px;
+    color: v.$c-gray-dark;
+    margin-bottom: 8px;
+  }
+
+  // Обёртки нужны, чтобы поверх поля можно было
+  // абсолютно позиционировать иконку календаря/шеврон
+  &__input-wrapper,
+  &__select-wrapper {
+    position: relative;
+    display: flex;
+  }
+
+  &__input,
+  &__select {
+    padding: 12px;
+    border: 1px solid v.$c-gray-medium;
+    border-radius: 4px;
+    outline: none;
+    font-family: inherit;
+    font-size: 16px;
+    width: 100%;
+
+    &:focus-visible {
+      border-color: v.$c-main-blue;
+    }
+  }
+
+  &__input {
+    padding-right: 40px; // место под иконку календаря
+  }
+
+  &__calendar-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    color: v.$c-gray-dark;
+    pointer-events: none; // клик проходит на input и открывает Flatpickr
+  }
+
+  &__select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 36px; // место под шеврон
+    cursor: pointer;
+  }
+
+  &__chevron {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    margin-top: -6px;
+    width: 10px;
+    height: 10px;
+    border-right: 2px solid v.$c-gray-dark;
+    border-bottom: 2px solid v.$c-gray-dark;
+    transform: rotate(45deg);
+    pointer-events: none;
+  }
+}

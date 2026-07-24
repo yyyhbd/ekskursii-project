@@ -1,0 +1,57 @@
+@use '../abstracts/variables' as v;
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all v.$transition-base;
+  border: 1px solid transparent;
+  font-size: 14px;
+  text-transform: uppercase;
+
+  &--primary {
+    background-color: transparent;
+    border-color: v.$c-yellow-accent;
+    color: v.$c-yellow-accent;
+
+    &:hover,
+    &:focus-visible {
+      background-color: v.$c-yellow-accent;
+      color: v.$c-white;
+    }
+  }
+
+  &--accent {
+    background-color: v.$c-yellow-accent;
+    color: v.$c-white;
+
+    &:hover,
+    &:focus-visible {
+      background-color: transparent;
+      border-color: v.$c-yellow-accent;
+      color: v.$c-yellow-accent;
+    }
+  }
+
+  &--secondary {
+    background-color: v.$c-main-blue;
+    color: v.$c-white;
+
+    &:hover,
+    &:focus-visible {
+      background-color: transparent;
+      border-color: v.$c-main-blue;
+      color: v.$c-main-blue;
+    }
+  }
+
+  &--small {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+}

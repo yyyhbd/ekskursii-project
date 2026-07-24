@@ -1,0 +1,392 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as m;
+
+.header {
+  background-color: v.$c-main-blue;
+  color: v.$c-white;
+  position: relative;
+  z-index: 100;
+
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: v.$header-height;
+    padding: 10px 16px;
+  }
+
+  // ---------------------------------------------------
+  // Выпадающее меню (ссылки + контакты/языки)
+  // ---------------------------------------------------
+  &__nav {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    
+    // ИЗМЕНЕНИЯ ЗДЕСЬ: Высота по контенту
+    height: auto; 
+    max-height: calc(100vh - #{v.$header-height}); // Ограничиваем максимальную высоту экраном
+    
+    background-color: v.$c-main-blue;
+    padding: 30px 20px 0 30px;
+    z-index: 10;
+    overflow-y: auto;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); // Тень, чтобы красиво отделялось от фона
+
+    // Плавное появление для мобилки
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+
+    &--active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    // Меню остается десктопным вплоть до 768px (планшет)
+    @media (min-width: 768px) {
+      display: contents;
+      pointer-events: auto;
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      box-shadow: none; // Убираем тень на десктопе
+    }
+  }
+
+  &__menu {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 30px;
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+      align-items: center;
+      gap: 30px;
+      margin-bottom: 0;
+      order: 1;
+    }
+  }
+
+  &__menu-item {
+    position: relative;
+
+    &--dropdown {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: v.$c-white;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-family: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: color v.$transition-base;
+
+    &:hover,
+    &:focus-visible {
+      color: v.$c-yellow-accent;
+    }
+  }
+
+  &__chevron {
+    width: 10px;
+    height: 10px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  // Панель "Контакты" — телефон + мессенджеры
+  &__dropdown {
+    display: none;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 14px;
+    padding: 14px;
+    background: v.$c-white;
+    border: 1px solid v.$c-gray-light;
+    border-radius: 4px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+
+    &--active {
+      display: flex;
+    }
+
+    @media (min-width: 768px) {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      min-width: 220px;
+      z-index: 30;
+    }
+  }
+
+  &__dropdown-phone {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: v.$c-main-blue;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__dropdown-phone-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  &__dropdown-social {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__social-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+
+    img {
+      width: 24px;
+      height: 24px;
+      display: block;
+    }
+
+    &:hover {
+      transform: scale(1.08);
+    }
+  }
+
+  // Кнопка действия (Бронировать)
+  &__actions {
+    display: none; // Скрываем на узких экранах
+
+    @media (min-width: 768px) {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 20px;
+      order: 3;
+    }
+  }
+
+  // Валюта/язык
+  &__locale {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    @media (min-width: 768px) {
+      order: 2;
+    }
+  }
+
+  &__custom-select {
+    position: relative;
+    user-select: none;
+  }
+
+  &__select-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    color: v.$c-yellow-accent;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+
+    .header__chevron {
+      transition: transform 0.25s ease;
+    }
+  }
+
+  &__custom-select--active {
+    .header__chevron {
+      transform: rotate(225deg);
+    }
+
+    .header__select-list {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+  }
+
+  &__select-list {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    min-width: 90px;
+    padding: 6px;
+    list-style: none;
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: 0.25s;
+    z-index: 50;
+  }
+
+  &__select-item {
+    padding: 8px 12px;
+    border-radius: 4px;
+    color: v.$c-main-blue;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s;
+
+    &:hover {
+      background: #edf5fb;
+    }
+
+    &--active {
+      background: v.$c-main-blue;
+      color: #fff;
+    }
+  }
+
+  &__select-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+
+    .header__chevron {
+      position: absolute;
+      right: 1px;
+      top: 50%;
+      margin-top: -6px;
+      color: v.$c-yellow-accent;
+      pointer-events: none;
+    }
+  }
+
+  &__select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: transparent;
+    color: v.$c-yellow-accent;
+    border: none;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+    padding-right: 18px;
+
+    option {
+      background-color: v.$c-main-blue;
+      color: v.$c-white;
+    }
+  }
+}
+
+// Логотип
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: v.$c-white;
+  flex-shrink: 0;
+
+  @media (min-width: 768px) {
+    order: 0;
+  }
+
+  &__img {
+    height: 32px;
+    width: auto;
+  }
+
+  &__text {
+    font-size: 20px;
+    font-weight: bold;
+  }
+}
+
+// Бургер-иконка
+.burger {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: 1px solid v.$c-white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all v.$transition-base;
+  flex-shrink: 0;
+
+  @media (min-width: 768px) {
+    display: none !important; 
+  }
+
+  &:hover,
+  &:focus-visible {
+    border-color: v.$c-yellow-accent;
+
+    .burger__line {
+      background-color: v.$c-yellow-accent;
+    }
+  }
+
+  &__line {
+    width: 20px;
+    height: 2px;
+    background-color: v.$c-white;
+    border-radius: 2px;
+    transition: background-color v.$transition-base,
+                transform v.$transition-base,
+                opacity v.$transition-base;
+  }
+
+  &--active {
+    .burger__line:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .burger__line:nth-child(2) {
+      opacity: 0;
+    }
+
+    .burger__line:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+  }
+}

@@ -1,0 +1,60 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as m;
+
+.card {
+  background: v.$c-white;
+  border: 1px solid v.$c-gray-light;
+  border-radius: 8px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+
+  @include m.tablet {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__date {
+    font-weight: 700;
+    font-size: 18px;
+    color: v.$c-dark-blue;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  &__time {
+    font-size: 15px;
+    color: v.$c-gray-dark;
+    margin-bottom: 8px;
+  }
+
+  &__status {
+    font-size: 14px;
+    color: v.$c-gray-dark;
+
+    &--empty {
+      color: v.$c-danger;
+      font-weight: bold;
+    }
+  }
+
+  &__action {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+
+    @include m.tablet {
+      align-items: flex-end;
+    }
+  }
+
+  &__price {
+    font-weight: 700;
+    font-size: 16px;
+    color: v.$c-dark-blue;
+  }
+}

@@ -1,0 +1,137 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as m;
+
+/* Анимация плавного переключения кадров (картинок) */
+@keyframes frameSwitch {
+  0% { opacity: 0; }
+  10%, 33% { opacity: 1; }    /* Картинка видна ровно 1/3 времени анимации */
+  43%, 100% { opacity: 0; }   /* Остальное время она скрыта */
+}
+
+.hero {
+  position: relative;
+background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)),
+              url('/src/assets/images/hero-bg.jpg') center/cover no-repeat;
+  color: v.$c-white;
+  width: 100%;
+
+  /* --- Мобильная версия --- */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 697px;
+
+  /* --- Десктопная версия (по Figma) --- */
+  @include m.desktop {
+    min-height: 856px;
+    padding: 0;
+    display: block;
+  }
+
+  /* 1. Блок текста и заголовка */
+  &__content {
+    width: calc(100% - 20px);
+    margin-left: 20px;
+    background: transparent;
+
+    @include m.desktop {
+      position: absolute;
+      top: 190px; /* Подняли текст выше (меньше отступ от шапки) */
+      left: 80px;
+      width: 702px;
+      height: auto;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  &__title {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 16px;
+
+    @include m.desktop {
+      font-family: 'Poppins', sans-serif;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 56px;
+      line-height: 1.15;
+      color: #FFFFFF;
+      text-shadow: 1px 1px 3px rgba(61, 61, 61, 0.7);
+      margin-bottom: 16px;
+    }
+  }
+
+  &__subtitle {
+    font-size: 18px;
+    opacity: 0.9;
+    margin-top: 12px;
+
+    @include m.desktop {
+      font-size: 20px;
+      margin-top: 0;
+    }
+  }
+
+  /* 2. Кнопка «Расписание» */
+  &__btn {
+    width: 193px;
+    height: 43px;
+    margin-top: 24px;
+    margin-left: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    @include m.desktop {
+      position: absolute;
+      top: 525px; /* Уменьшили верхний отступ (сдвинули кнопку ближе к тексту) */
+      left: 80px;
+      margin-top: 0;
+      margin-left: 0;
+    }
+  }
+
+  /* 3. Анимация стрелки вниз */
+  &__scroll-down {
+    position: relative;
+    display: block;
+    width: 24px;
+    height: 40px;
+    margin-top: 24px;
+    margin-left: 104.5px; 
+    cursor: pointer;
+
+    @include m.desktop {
+      position: absolute;
+      top: 590px; /* Сдвинули стрелку синхронно за кнопкой */
+      left: 165px;
+      margin-top: 0;
+      margin-left: 0;
+    }
+
+    .hero__arrow-frame {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      opacity: 0;
+
+      animation: frameSwitch 1.5s infinite;
+
+      &--1 {
+        animation-delay: 0s;
+      }
+      &--2 {
+        animation-delay: 0.5s;
+      }
+      &--3 {
+        animation-delay: 1s;
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+@use 'variables' as v;
+
+// Mobile-first медиа-миксины
+@mixin tablet {
+  @media (min-width: v.$bp-tablet) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: v.$bp-desktop) {
+    @content;
+  }
+}
+
+// Сброс стилей кнопки/инпута
+@mixin reset-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+}
